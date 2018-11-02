@@ -33,6 +33,7 @@ footer, header, hgroup, menu, nav, section {
 body {
     line-height: 1;
     font-family: 'Muli', sans-serif;
+    background-image: linear-gradient(to right, #649173,  #dbd5a4 );
 }
 ol, ul {
 	list-style: none;
@@ -96,11 +97,23 @@ table {
 
 /***** Calendar Body *****/
 
-.days table .days-row td {
-    padding: .4em;
+.days-body thead .days-row th {
+    padding: 1em;
+    cursor: default;
+    border: 1px solid black;
 }
 
-.days table .days-row td:hover{
+.days-body thead .days-row th:hover{
     color:yellow;
     transition: .5s;
+}
+
+.calendar-days {
+    width:100%;
+}
+
+.calendar-days td {
+    padding: 1em;
+    cursor: default;
+    border: 1px solid black;
 }
