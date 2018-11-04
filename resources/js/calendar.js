@@ -7,9 +7,23 @@ months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", 
 let monthAndYear = document.getElementsByClassName("year-month")[0];
 let next = document.getElementById('next');
 let prev = document.getElementById('prev');
+let selectYear = document.getElementById('year');
+let selectMonth = document.getElementById('month');
+
+selectYear.value=currentYear;
+selectMonth.value=currentMonth;
 
 next.addEventListener('click', nextMonth);
 prev.addEventListener('click', previousMonth);
+selectYear.addEventListener('input', (event)=> {
+    if(event.keyCode == 13) {
+        event.preventDefault();
+        return false;
+    } else {
+        jump();
+    }
+})
+selectMonth.addEventListener('change', jump);
 
 showCalendar(currentMonth,currentYear);
 
@@ -73,6 +87,13 @@ function previousMonth() {
     currentMonth = (currentMonth === 0) ? 11 : currentMonth - 1;
     showCalendar(currentMonth, currentYear);
 }
+
+function jump() {
+    currentYear = parseInt(selectYear.value);
+    currentMonth = parseInt(selectMonth.value);
+    showCalendar(currentMonth, currentYear);
+}
+
 
 function daysInMonth (month, year) {
     return new Date(year, month, 0).getDate();

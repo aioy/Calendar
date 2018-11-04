@@ -57,10 +57,10 @@ table {
 .container {
     max-width: 500px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     margin: 40px auto;
     padding: 20px;
-    align-items: center;
+    align-items: stretch;
 }
 
 .calendar {
@@ -68,11 +68,12 @@ table {
     display: flex;
     flex-direction: column;
     align-items: center;
+    border: 2px solid black;
 }
 
 /***** Calender Header *****/
 
-.years-header{
+.date-header{
     width: 100%;
     display: flex;
     align-items: center;
@@ -84,13 +85,13 @@ table {
      
 }
 
-.years-header .time-skip{
+.date-header .time-skip{
     height:100%;
     line-height: 2em;
     padding: 0 .2em 0 .2em;
 }
 
-.years-header .time-skip:hover {
+.date-header .time-skip:hover {
     background-color: rgba(0,0,0,0.30);
     cursor: pointer;
 }
@@ -100,7 +101,7 @@ table {
 .days-body thead .days-row th {
     padding: 1em;
     cursor: default;
-    border: 1px solid black;
+    border: 2px solid black;
 }
 
 .days-body thead .days-row th:hover{
@@ -108,12 +109,55 @@ table {
     transition: .5s;
 }
 
-.calendar-days {
-    width:100%;
-}
-
 .calendar-days td {
     padding: 1em;
     cursor: default;
-    border: 1px solid black;
+    border: 2px solid black;
+    text-align:center;
+}
+
+/******** Select Date *********/
+
+.select-date {
+    border: 2px solid black;
+    border-right:none;
+    border-bottom: 1px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-top: 10px;
+
+}
+
+#month {
+   margin-right: 40px;
+}
+
+#year {
+    -moz-appearance:textfield;
+    height:100%;
+    padding:0%;
+    border: none;
+    color: white;
+    background: black;
+}
+
+#year::-webkit-outer-spin-button,
+#year::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+.select-date label {
+    margin-left: 40px;
+    align-self: center;
+}
+
+/****** Events ********/
+
+.event-container{
+    background:red;
+    border: 3px solid black;
+    border-left:none;
+    display: flex;
 }
