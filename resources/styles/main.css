@@ -55,12 +55,12 @@ table {
 /***** Container- calendar- Events ******/
 
 .container {
-    max-width: 500px;
     display: flex;
     flex-direction: row;
     margin: 40px auto;
     padding: 20px;
     align-items: stretch;
+    justify-content: center;
 }
 
 .calendar {
@@ -114,6 +114,11 @@ table {
     cursor: default;
     border: 2px solid black;
     text-align:center;
+    transition: all 600ms;
+}
+
+.calendar-days td:hover {
+    background: #dd9756;
 }
 
 /******** Select Date *********/
@@ -127,7 +132,6 @@ table {
     flex-direction: row;
     justify-content: space-evenly;
     margin-top: 10px;
-
 }
 
 #month {
@@ -156,8 +160,29 @@ table {
 /****** Events ********/
 
 .event-container{
-    background:red;
-    border: 3px solid black;
+    background: linear-gradient(to bottom left, #f2fcef, #eff7f1);
     border-left:none;
     display: flex;
+    width:433px;
+    border: 2px solid black;
 }
+
+.events{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /*center children vertically*/
+}
+
+.events .event-message{
+    align-items: center;
+    width: 80%;
+    text-align: center;
+    margin: 20px auto;
+    padding: 10px 0;
+    background-image: linear-gradient(to right, #649173,  #dbd5a4 );
+    border-radius: 3px;
+    box-shadow: 3px 6px 10px #393a39;
+}
+

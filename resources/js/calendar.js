@@ -1,3 +1,5 @@
+//Calendar
+
 let today = new Date();
 let currentMonth = today.getMonth();
 let currentYear = today.getFullYear();
@@ -61,8 +63,9 @@ function showCalendar(month, year) {
                 cell = document.createElement("td");
                 cellText = document.createTextNode(date);
                 if (date === today.getDate() && year === today.getFullYear() && month === today.getMonth()) {
-                    cell.classList.add("bg-info");
+                    //cell.classList.add("bg-info");
                 } // color today's date
+                cell.classList.add('day');
                 cell.appendChild(cellText);
                 row.appendChild(cell);
                 date++;
@@ -98,3 +101,20 @@ function jump() {
 function daysInMonth (month, year) {
     return new Date(year, month, 0).getDate();
 }
+
+
+// Events
+
+let noEvents = document.getElementsByClassName('no-Events')[0];
+let eventTitle = document.getElementsByClassName('event-title')[0];
+let eventDesc = document.getElementsByClassName('event-desc')[0];
+
+noEvents.innerHTML += 'There are no events on ' + months[currentMonth] + ' ' + today.getDate();
+
+let days = document.querySelectorAll('.day');
+
+days.forEach((e)=>{
+    e.addEventListener('click', function(event){
+        this.classList.add('active');
+    })
+});
