@@ -117,6 +117,10 @@ table {
     transition: all 600ms;
 }
 
+.active {
+    background: #dd9756;
+}
+
 .calendar-days td:hover {
     background: #dd9756;
 }

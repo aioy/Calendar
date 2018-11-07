@@ -63,7 +63,7 @@ function showCalendar(month, year) {
                 cell = document.createElement("td");
                 cellText = document.createTextNode(date);
                 if (date === today.getDate() && year === today.getFullYear() && month === today.getMonth()) {
-                    //cell.classList.add("bg-info");
+                    cell.classList.add("active");
                 } // color today's date
                 cell.classList.add('day');
                 cell.appendChild(cellText);
@@ -76,7 +76,6 @@ function showCalendar(month, year) {
 
         tbl.appendChild(row); // appending each row into calendar body.
     }
-
 }
 
 function nextMonth() {
@@ -113,8 +112,24 @@ noEvents.innerHTML += 'There are no events on ' + months[currentMonth] + ' ' + t
 
 let days = document.querySelectorAll('.day');
 
-days.forEach((e)=>{
-    e.addEventListener('click', function(event){
-        this.classList.add('active');
-    })
-});
+//https://stackoverflow.com/questions/34896106/attach-event-to-dynamic-elements-in-javascript Event Delegation for new elements
+document.addEventListener('click',function(e){
+    if(!e.target.classList.contains('active') && e.target.classList.contains('day')){
+        e.target.classList.add('active');
+    }
+ });
+
+
+// function hasClass(elem, className) {
+//     return elem.classList.contains(className);
+// }
+
+// days.forEach((e)=>{
+//     e.addEventListener('click', function (e) {
+//         if (hasClass(e.target, 'active')) {
+//             console.log('b');
+//         } else {
+//             console.log('c');
+//         }
+//         }, false);
+// })
