@@ -110,8 +110,6 @@ let eventDesc = document.getElementsByClassName('event-desc')[0];
 
 noEvents.innerHTML += 'There are no events on ' + months[currentMonth] + ' ' + today.getDate();
 
-let days = document.querySelectorAll('.day');
-
 //https://stackoverflow.com/questions/34896106/attach-event-to-dynamic-elements-in-javascript Event Delegation for new elements
 document.addEventListener('click',function(e){
     if(!e.target.classList.contains('active') && e.target.classList.contains('day')){
@@ -120,16 +118,26 @@ document.addEventListener('click',function(e){
  });
 
 
-// function hasClass(elem, className) {
-//     return elem.classList.contains(className);
-// }
+ function new_event(){
 
-// days.forEach((e)=>{
-//     e.addEventListener('click', function (e) {
-//         if (hasClass(e.target, 'active')) {
-//             console.log('b');
-//         } else {
-//             console.log('c');
-//         }
-//         }, false);
-// })
+ }
+
+ //adds json to event_data
+ function new_event_json(title , description, date, day){
+     let event = {
+        "title": title,
+        "description": description,
+        "year": date,
+        "month": date,
+        "day": day
+     };
+
+     event_data.events.push(event);
+ }
+
+//JSON event data
+ let event_data = {
+     "events": [
+
+     ]
+ };
