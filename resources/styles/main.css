@@ -117,10 +117,6 @@ table {
     transition: all 600ms;
 }
 
-.active {
-    background: #dd9756;
-}
-
 .calendar-days td:hover {
     background: #dd9756;
 }
@@ -191,6 +187,21 @@ table {
     box-shadow: 3px 6px 10px #393a39;
 }
 
+.hasEvent {
+    background: #dd9756;
+}
+
+.active {
+    background: blue;
+}
+
+.error {
+    border: 1px solid red;
+    background: red;
+    color: red;
+}
+
+
 
 /******** new Event Form **********/
 
@@ -198,7 +209,6 @@ table {
     width: 100%;
     display:flex;
     flex-direction: column;
-    align-content: space-around;
     justify-content: space-evenly;
     text-align: center;
 }

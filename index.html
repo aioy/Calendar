@@ -10,7 +10,10 @@
             <div class='calendar'>
                 <div class='date-header'>
                     <span id='prev' class='time-skip'>prev</span>
-                    <span class='year-month'>2012</span>
+                    <div class='year-month'>
+                        <span class='month'></span>
+                        <span class='year'></span>
+                    </div>
                     <span id='next' class='time-skip'>next</span>
                 </div>
                 <table class='days-body'>
@@ -56,7 +59,7 @@
                     <legend>Submit New Event</legend>
                     <input id='new-event-title' type='text' name='title' placeholder='title'>
                     <input id='new-event-desc' type='text' name='desc' placeholder='desc'>
-                    <input type='submit' value='submit'>
+                    <input type='submit' id='submit-event' value='submit'>
                 </form>
             </div>
         </div>

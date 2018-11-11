@@ -1,12 +1,15 @@
+"use strict";
 //Calendar
 
 let today = new Date();
 let currentMonth = today.getMonth();
 let currentYear = today.getFullYear();
 
-months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-let monthAndYear = document.getElementsByClassName("year-month")[0];
+// let monthAndYear = document.getElementsByClassName("year-month")[0];
+let headerMonths = document.getElementsByClassName('month')[0];
+let headerYears = document.getElementsByClassName('year')[0];
 let next = document.getElementById('next');
 let prev = document.getElementById('prev');
 let selectYear = document.getElementById('year');
@@ -33,13 +36,14 @@ function showCalendar(month, year) {
 
     let firstDay = (new Date(year, month)).getDay();
 
-    tbl = document.getElementsByClassName("calendar-days")[0]; // body of the calendar
+    let tbl = document.getElementsByClassName("calendar-days")[0]; // body of the calendar
 
     // clearing all previous cells
     tbl.innerHTML = "";
 
     // filing data about month and in the page via DOM.
-    monthAndYear.innerHTML = months[month] + " " + year;
+    headerMonths.innerHTML = months[month];
+    headerYears.innerHTML = year;
 
     // creating all cells
     let date = 1;
@@ -50,8 +54,8 @@ function showCalendar(month, year) {
         //creating individual cells, filing them up with data.
         for (let j = 0; j < 7; j++) {
             if (i === 0 && j < firstDay) {
-                cell = document.createElement("td");
-                cellText = document.createTextNode("");
+                let cell = document.createElement("td");
+                let cellText = document.createTextNode("");
                 cell.appendChild(cellText);
                 row.appendChild(cell);
             }
@@ -60,8 +64,8 @@ function showCalendar(month, year) {
             }
 
             else {
-                cell = document.createElement("td");
-                cellText = document.createTextNode(date);
+                let cell = document.createElement("td");
+                let cellText = document.createTextNode(date);
                 if (date === today.getDate() && year === today.getFullYear() && month === today.getMonth()) {
                     cell.classList.add("active");
                 } // color today's date
@@ -113,30 +117,55 @@ noEvents.innerHTML += 'There are no events on ' + months[currentMonth] + ' ' + t
 //https://stackoverflow.com/questions/34896106/attach-event-to-dynamic-elements-in-javascript Event Delegation for new elements
 document.addEventListener('click',function(e){
     if(!e.target.classList.contains('active') && e.target.classList.contains('day')){
+        if(document.getElementsByClassName('active')[0] === undefined){
+            e.target.classList.add('active');
+        }
+        document.getElementsByClassName('active')[0].classList.remove('active');
+        e.target.classList.add('active');
+    } else if(e.target.classList.contains('active')===null && e.target.classList.contains('day')){
         e.target.classList.add('active');
     }
  });
 
+//handles new Event form
+ let newEvent = {
+    // day: parseInt(event.innerHTML),
+    title: document.querySelector('#new-event-title'),
+    desc: document.querySelector('#new-event-desc'),
+    month: headerMonths.innerHTML,
+    year: headerYears.innerHTML,
+    active: document.getElementsByClassName('active')[0].innerHTML,
+    submit: ()=>{
+        if(newEvent.title.value.length===0){
+            console.log('sasc');
+            newEvent.title.classList.add('error');
+        } else if(newEvent.desc.value.length===0) {
+            newEvent.desc.classList.add('error');
+        } else {
+            newEventJson(newEvent.title.value, newEvent.desc.value, newEvent.month, newEvent.year, newEvent.active);
+        }
+    }
+ };
 
- function new_event(){
+ document.querySelector('#submit-event').addEventListener('click', (e)=>{
+    e.preventDefault();
+    newEvent.submit();
+ });
 
- }
-
- //adds json to event_data
- function new_event_json(title , description, date, day){
+ //adds json to eventData
+ function newEventJson(title , description, month, year, day){
      let event = {
         "title": title,
         "description": description,
-        "year": date,
-        "month": date,
+        "year": year,
+        "month": month,
         "day": day
      };
-
-     event_data.events.push(event);
+     eventData.events.push(event);
  }
 
 //JSON event data
- let event_data = {
+ let eventData = {
      "events": [
 
      ]
