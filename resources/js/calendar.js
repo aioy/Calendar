@@ -7,7 +7,6 @@ let currentYear = today.getFullYear();
 
 let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-// let monthAndYear = document.getElementsByClassName("year-month")[0];
 let headerMonths = document.getElementsByClassName('month')[0];
 let headerYears = document.getElementsByClassName('year')[0];
 let next = document.getElementById('next');
@@ -121,35 +120,43 @@ document.addEventListener('click',function(e){
             e.target.classList.add('active');
         }
         document.getElementsByClassName('active')[0].classList.remove('active');
+        if(document.getElementsByClassName('active')[0] === undefined){
+            e.target.classList.add('active');
+        }
         e.target.classList.add('active');
     } else if(e.target.classList.contains('active')===null && e.target.classList.contains('day')){
         e.target.classList.add('active');
     }
  });
-
+let active =document.getElementsByClassName('active')[0].innerHTML;
 //handles new Event form
  let newEvent = {
     // day: parseInt(event.innerHTML),
     title: document.querySelector('#new-event-title'),
     desc: document.querySelector('#new-event-desc'),
-    month: headerMonths.innerHTML,
-    year: headerYears.innerHTML,
-    active: document.getElementsByClassName('active')[0].innerHTML,
+    month: headerMonths,
+    year: headerYears,
+    active: document.getElementsByClassName('active'),
     submit: ()=>{
         if(newEvent.title.value.length===0){
-            console.log('sasc');
             newEvent.title.classList.add('error');
         } else if(newEvent.desc.value.length===0) {
             newEvent.desc.classList.add('error');
         } else {
-            newEventJson(newEvent.title.value, newEvent.desc.value, newEvent.month, newEvent.year, newEvent.active);
+            newEventJson(newEvent.title.value, newEvent.desc.value, newEvent.month.innerHTML, newEvent.year.innerHTML, newEvent.active[0].innerHTML);
+            console.log(eventData);
         }
+    },
+    clear: ()=>{
+        newEvent.title.value = '';
+        newEvent.desc.value='';
     }
  };
 
  document.querySelector('#submit-event').addEventListener('click', (e)=>{
     e.preventDefault();
     newEvent.submit();
+    newEvent.clear();
  });
 
  //adds json to eventData
