@@ -153,10 +153,28 @@ let active =document.getElementsByClassName('active')[0].innerHTML;
     }
  };
 
+ const hideShowEventsDiv = ()=> {
+     let eventsDiv = document.querySelector('.events');
+     let newEventDiv = document.querySelector('.new-event-form');
+     let eventMessage = document.getElementsByClassName('event-message');
+
+     if(eventsDiv.classList.contains('hidden')){
+        newEventDiv.classList.add('hidden');
+        eventsDiv.classList.remove('hidden');
+        eventsDiv.classList.add('visible');
+     } else {
+        eventsDiv.classList.remove('visible');
+        eventsDiv.classList.add('hidden');
+        newEventDiv.classList.remove('hidden');
+        newEventDiv.classList.add('visible');
+     }   
+ }
+
  document.querySelector('#submit-event').addEventListener('click', (e)=>{
     e.preventDefault();
     newEvent.submit();
     newEvent.clear();
+    hideShowEventsDiv();
  });
 
  //adds json to eventData
