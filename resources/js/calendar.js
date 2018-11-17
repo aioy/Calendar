@@ -155,26 +155,38 @@ let active =document.getElementsByClassName('active')[0].innerHTML;
 
  const hideShowEventsDiv = ()=> {
      let eventsDiv = document.querySelector('.events');
-     let newEventDiv = document.querySelector('.new-event-form');
-     let eventMessage = document.getElementsByClassName('event-message');
+     let newEventForm = document.querySelector('.new-event-form');
+     let saveEventButton = document.querySelector('.submit-event');
+     let showEventForm = document.querySelector('.show-event-form');
 
      if(eventsDiv.classList.contains('hidden')){
-        newEventDiv.classList.add('hidden');
+         //show Events
+        newEventForm.classList.add('hidden');
+        newEventForm.classList.remove('visible');
         eventsDiv.classList.remove('hidden');
         eventsDiv.classList.add('visible');
+        //change rotate class for Event listener
+        saveEventButton.classList.remove('rotate');
+        showEventForm.classList.add('rotate');
      } else {
+         //show new Event Form
         eventsDiv.classList.remove('visible');
         eventsDiv.classList.add('hidden');
-        newEventDiv.classList.remove('hidden');
-        newEventDiv.classList.add('visible');
+        newEventForm.classList.remove('hidden');
+        newEventForm.classList.add('visible');
+        showEventForm.classList.remove('rotate');
+        saveEventButton.classList.add('rotate');
      }   
  }
 
- document.querySelector('#submit-event').addEventListener('click', (e)=>{
-    e.preventDefault();
-    newEvent.submit();
-    newEvent.clear();
-    hideShowEventsDiv();
+ //Submit form and show event or new event form
+ document.addEventListener('click', (e)=>{
+     if(e.target.classList.contains('rotate')){
+        e.preventDefault();
+        newEvent.submit();
+        newEvent.clear();
+        hideShowEventsDiv();
+     }
  });
 
  //adds json to eventData
