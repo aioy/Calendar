@@ -144,7 +144,8 @@ let active =document.getElementsByClassName('active')[0].innerHTML;
             newEvent.desc.classList.add('error');
         } else {
             newEventJson(newEvent.title.value, newEvent.desc.value, newEvent.month.innerHTML, newEvent.year.innerHTML, newEvent.active[0].innerHTML);
-            console.log(eventData);
+            hideShowEventsDiv();
+            newEvent.clear();
         }
     },
     clear: ()=>{
@@ -181,12 +182,12 @@ let active =document.getElementsByClassName('active')[0].innerHTML;
 
  //Submit form and show event or new event form
  document.addEventListener('click', (e)=>{
-     if(e.target.classList.contains('rotate')){
-        e.preventDefault();
+    e.preventDefault();
+    if(e.target.classList.contains('rotate') && e.target.classList.contains('submit-event')){
         newEvent.submit();
-        newEvent.clear();
+    } else if(e.target.classList.contains('rotate')) {
         hideShowEventsDiv();
-     }
+    }
  });
 
  //adds json to eventData

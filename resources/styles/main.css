@@ -214,6 +214,7 @@ table {
 
 .hidden {
     height: 0; opacity: 0; width: 0;
+    overflow: hidden;
     transition: height 0ms 400ms, opacity 200ms 0ms, width 0ms 0ms;
 }
 
