@@ -7,6 +7,14 @@ let currentYear = today.getFullYear();
 
 let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
+
+//JSON event data
+let eventData = {
+    "events": [
+
+    ]
+ };
+
 let headerMonths = document.getElementsByClassName('month')[0];
 let headerYears = document.getElementsByClassName('year')[0];
 let next = document.getElementById('next');
@@ -31,7 +39,7 @@ selectMonth.addEventListener('change', jump);
 
 showCalendar(currentMonth,currentYear);
 
-function showCalendar(month, year) {
+function showCalendar(month, year) { 
 
     let firstDay = (new Date(year, month)).getDay();
 
@@ -65,9 +73,13 @@ function showCalendar(month, year) {
             else {
                 let cell = document.createElement("td");
                 let cellText = document.createTextNode(date);
+                let events = checkEvents(cellText.data, headerMonths.innerHTML, year);
                 if (date === today.getDate() && year === today.getFullYear() && month === today.getMonth()) {
-                    cell.classList.add("active");
-                } // color today's date
+                    cell.classList.add("active"); // color today's date
+                } 
+                if(events.length!==0){
+                    cell.classList.add('active-event');
+                }
                 cell.classList.add('day');
                 cell.appendChild(cellText);
                 row.appendChild(cell);
@@ -190,9 +202,24 @@ let active =document.getElementsByClassName('active')[0].innerHTML;
     }
  });
 
+function checkEvents (day, month, year){
+    let events = [];
+    for(let i=0; i<eventData['events'].length; i++){
+       let event = eventData['events'][i];
+       if(event['day']===day &&
+       event['month']===month &&
+       event['year']===year.toString()) {
+           events.push(event);
+           console.log(event);
+       }
+    }
+    return events;
+}
+
+
  //adds json to eventData
- function newEventJson(title , description, month, year, day){
-     let event = {
+function newEventJson(title , description, month, year, day){
+    let event = {
         "title": title,
         "description": description,
         "year": year,
@@ -201,10 +228,3 @@ let active =document.getElementsByClassName('active')[0].innerHTML;
      };
      eventData.events.push(event);
  }
-
-//JSON event data
- let eventData = {
-     "events": [
-
-     ]
- };

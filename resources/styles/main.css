@@ -194,6 +194,10 @@ table {
     background: blue;
 }
 
+.active-event {
+    background: pink;
+}
+
 .error {
     border: 1px solid red;
     background: red;
