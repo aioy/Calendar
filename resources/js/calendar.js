@@ -7,14 +7,6 @@ let currentYear = today.getFullYear();
 
 let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-
-//JSON event data
-let eventData = {
-    "events": [
-
-    ]
- };
-
 let headerMonths = document.getElementsByClassName('month')[0];
 let headerYears = document.getElementsByClassName('year')[0];
 let next = document.getElementById('next');
@@ -73,13 +65,9 @@ function showCalendar(month, year) {
             else {
                 let cell = document.createElement("td");
                 let cellText = document.createTextNode(date);
-                let events = checkEvents(cellText.data, headerMonths.innerHTML, year);
                 if (date === today.getDate() && year === today.getFullYear() && month === today.getMonth()) {
                     cell.classList.add("active"); // color today's date
                 } 
-                if(events.length!==0){
-                    cell.classList.add('active-event');
-                }
                 cell.classList.add('day');
                 cell.appendChild(cellText);
                 row.appendChild(cell);
@@ -202,18 +190,20 @@ let active =document.getElementsByClassName('active')[0].innerHTML;
     }
  });
 
-function checkEvents (day, month, year){
-    let events = [];
-    for(let i=0; i<eventData['events'].length; i++){
-       let event = eventData['events'][i];
-       if(event['day']===day &&
-       event['month']===month &&
-       event['year']===year.toString()) {
-           events.push(event);
-           console.log(event);
-       }
-    }
-    return events;
+
+function showEvents () {
+    let days = document.getElementsByClassName('day');
+    
+    [...eventData['events']].forEach((event)=>{
+        [...days].forEach((day)=>{
+            if(event['day']===day.innerHTML && event['month']===headerMonths.innerHTML && event['year']===headerYears.innerHTML){
+                day.classList.add('active-event');
+            } else {
+                console.log('fail');
+            }
+        });
+    });
+
 }
 
 
@@ -228,3 +218,10 @@ function newEventJson(title , description, month, year, day){
      };
      eventData.events.push(event);
  }
+
+ //JSON event data
+let eventData = {
+    "events": [
+
+    ]
+ };
