@@ -7,6 +7,18 @@ let currentYear = today.getFullYear();
 
 let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
+ //JSON event data
+ let eventData = {
+    "events": [
+        {
+            "description": 'es',
+            "year": '2018',
+            "month": 'Nov',
+            "day": '28'
+        }
+    ]
+ };
+
 let headerMonths = document.getElementsByClassName('month')[0];
 let headerYears = document.getElementsByClassName('year')[0];
 let next = document.getElementById('next');
@@ -30,6 +42,7 @@ selectYear.addEventListener('input', (event)=> {
 selectMonth.addEventListener('change', jump);
 
 showCalendar(currentMonth,currentYear);
+showEvents();
 
 function showCalendar(month, year) { 
 
@@ -85,18 +98,21 @@ function nextMonth() {
     currentYear = (currentMonth === 11) ? currentYear + 1 : currentYear;
     currentMonth = (currentMonth + 1) % 12;
     showCalendar(currentMonth, currentYear);
+    showEvents();
 }
 
 function previousMonth() {
     currentYear = (currentMonth === 0) ? currentYear - 1 : currentYear;
     currentMonth = (currentMonth === 0) ? 11 : currentMonth - 1;
     showCalendar(currentMonth, currentYear);
+    showEvents();
 }
 
 function jump() {
     currentYear = parseInt(selectYear.value);
     currentMonth = parseInt(selectMonth.value);
     showCalendar(currentMonth, currentYear);
+    showEvents();
 }
 
 
@@ -106,12 +122,6 @@ function daysInMonth (month, year) {
 
 
 // Events
-
-let noEvents = document.getElementsByClassName('no-Events')[0];
-let eventTitle = document.getElementsByClassName('event-title')[0];
-let eventDesc = document.getElementsByClassName('event-desc')[0];
-
-noEvents.innerHTML += 'There are no events on ' + months[currentMonth] + ' ' + today.getDate();
 
 //https://stackoverflow.com/questions/34896106/attach-event-to-dynamic-elements-in-javascript Event Delegation for new elements
 document.addEventListener('click',function(e){
@@ -128,28 +138,24 @@ document.addEventListener('click',function(e){
         e.target.classList.add('active');
     }
  });
-let active =document.getElementsByClassName('active')[0].innerHTML;
+let active = document.getElementsByClassName('active')[0].innerHTML;
 //handles new Event form
  let newEvent = {
     // day: parseInt(event.innerHTML),
-    title: document.querySelector('#new-event-title'),
     desc: document.querySelector('#new-event-desc'),
     month: headerMonths,
     year: headerYears,
     active: document.getElementsByClassName('active'),
     submit: ()=>{
-        if(newEvent.title.value.length===0){
-            newEvent.title.classList.add('error');
-        } else if(newEvent.desc.value.length===0) {
+        if(newEvent.desc.value.length===0) {
             newEvent.desc.classList.add('error');
         } else {
-            newEventJson(newEvent.title.value, newEvent.desc.value, newEvent.month.innerHTML, newEvent.year.innerHTML, newEvent.active[0].innerHTML);
+            newEventJson(newEvent.desc.value, newEvent.month.innerHTML, newEvent.year.innerHTML, newEvent.active[0].innerHTML);
             hideShowEventsDiv();
             newEvent.clear();
         }
     },
     clear: ()=>{
-        newEvent.title.value = '';
         newEvent.desc.value='';
     }
  };
@@ -166,6 +172,7 @@ let active =document.getElementsByClassName('active')[0].innerHTML;
         newEventForm.classList.remove('visible');
         eventsDiv.classList.remove('hidden');
         eventsDiv.classList.add('visible');
+        showEvents();
         //change rotate class for Event listener
         saveEventButton.classList.remove('rotate');
         showEventForm.classList.add('rotate');
@@ -190,22 +197,39 @@ let active =document.getElementsByClassName('active')[0].innerHTML;
     }
  });
 
-
+//color the events on the calendar
 function showEvents () {
     let days = document.getElementsByClassName('day');
-    
+    let events = [];
     [...eventData['events']].forEach((event)=>{
         [...days].forEach((day)=>{
             if(event['day']===day.innerHTML && event['month']===headerMonths.innerHTML && event['year']===headerYears.innerHTML){
                 day.classList.add('active-event');
-            } else {
-                console.log('fail');
-            }
+                events.push(event)
+            } 
         });
     });
-
+    return events;
 }
 
+//show text from eventData array
+document.addEventListener('click', (e)=> {
+    let noEvents = document.getElementsByClassName('no-Events')[0];
+    let eventsDescContainer = document.querySelector('.events');
+
+    if(e.target.classList.contains('day')){
+        [...eventData['events']].forEach((event)=>{
+            if(event['day']===e.target.innerHTML && event['month']===headerMonths.innerHTML && event['year']===headerYears.innerHTML){
+                noEvents.style.display = 'none';
+                let eventDesc = `<span class='event-desc event-message'>${eventData['description']}</span>`
+                const span = document.createElement('span');
+                let text = document.createTextNode(eventDesc);
+                span.appendChild(text);
+                eventsDescContainer.appendChild(span);
+            }  
+        });
+    }
+});
 
  //adds json to eventData
 function newEventJson(title , description, month, year, day){
@@ -219,9 +243,3 @@ function newEventJson(title , description, month, year, day){
      eventData.events.push(event);
  }
 
- //JSON event data
-let eventData = {
-    "events": [
-
-    ]
- };
