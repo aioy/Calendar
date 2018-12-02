@@ -69,6 +69,7 @@ table {
     flex-direction: column;
     align-items: center;
     border: 2px solid black;
+    min-height: 425px;
 }
 
 /***** Calender Header *****/
@@ -131,7 +132,7 @@ table {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-    margin-top: 10px;
+    margin-top: auto;
 }
 
 #month {
@@ -164,15 +165,19 @@ table {
     border-left:none;
     display: flex;
     width:433px;
+    height: 425px;
     border: 2px solid black;
     overflow:hidden;
+    overflow-y: auto
 }
 
 .events{
     height: 100%;
     display:flex;
     flex-direction: column;
-    align-items: center; /*center children vertically*/
+    align-items: center; /*center children horizontally*/
+    overflow-y: auto;
+    justify-content: start;
 }
 
 .events .event-message{
@@ -184,6 +189,10 @@ table {
     background-image: linear-gradient(to right, #649173,  #dbd5a4 );
     border-radius: 3px;
     box-shadow: 3px 6px 10px #393a39;
+}
+
+.event-desc{
+    align-self: flex-start;
 }
 
 .hasEvent {

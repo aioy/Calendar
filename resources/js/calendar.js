@@ -117,7 +117,7 @@ function jump() {
 
 
 function daysInMonth (month, year) {
-    return new Date(year, month, 0).getDate();
+    return new Date(year, month+1, 0).getDate();
 }
 
 
@@ -138,7 +138,7 @@ document.addEventListener('click',function(e){
         e.target.classList.add('active');
     }
  });
-let active = document.getElementsByClassName('active')[0].innerHTML;
+
 //handles new Event form
  let newEvent = {
     // day: parseInt(event.innerHTML),
@@ -152,6 +152,7 @@ let active = document.getElementsByClassName('active')[0].innerHTML;
         } else {
             newEventJson(newEvent.desc.value, newEvent.month.innerHTML, newEvent.year.innerHTML, newEvent.active[0].innerHTML);
             hideShowEventsDiv();
+            showEventText(newEvent.desc.value, newEvent.month.innerHTML, newEvent.year.innerHTML, newEvent.active[0].innerHTML);
             newEvent.clear();
         }
     },
@@ -212,7 +213,47 @@ function showEvents () {
     return events;
 }
 
-//show text from eventData array
+//clears previous event Text
+function clearEventText() {
+    if(document.getElementsByClassName('event-desc')){
+        [...document.getElementsByClassName('event-desc')].forEach((event)=>{
+            event.outerHTML='';
+        });
+    }
+}
+
+//shows eventText
+function showEventText(desc,month,year,day) {
+
+    let noEvents = document.getElementsByClassName('no-Events')[0];
+    let eventsDescContainer = document.querySelector('.events');
+
+    [...eventData['events']].forEach((event)=>{
+        if(event['day']===day && event['month']===month && event['year']===year){
+            let eventsDescContainer = document.querySelector('.events');
+
+            //span element to put Event text into
+            let eventDesc = desc;
+            const span = document.createElement('span');
+            let EventText = document.createTextNode(eventDesc);;
+
+            //clear previous events message
+            clearEventText();
+            noEvents.style.display='none';
+
+            //append to container
+            span.appendChild(EventText)
+            span.classList.add('event-desc', 'event-message');
+            eventsDescContainer.appendChild(span);
+
+
+            //switch direction of events container to show event on top, button on bottom
+            eventsDescContainer.style.flexDirection = 'column-reverse';
+        }
+    });
+}
+
+// //handler to show text from eventData array
 document.addEventListener('click', (e)=> {
     let noEvents = document.getElementsByClassName('no-Events')[0];
     let eventsDescContainer = document.querySelector('.events');
@@ -220,21 +261,30 @@ document.addEventListener('click', (e)=> {
     if(e.target.classList.contains('day')){
         [...eventData['events']].forEach((event)=>{
             if(event['day']===e.target.innerHTML && event['month']===headerMonths.innerHTML && event['year']===headerYears.innerHTML){
-                noEvents.style.display = 'none';
-                let eventDesc = `<span class='event-desc event-message'>${eventData['description']}</span>`
-                const span = document.createElement('span');
-                let text = document.createTextNode(eventDesc);
-                span.appendChild(text);
-                eventsDescContainer.appendChild(span);
-            }  
+
+                //show event Text
+                showEventText(event['description'], event['month'], event['year'], event['day']);
+
+            }  else {
+                console.log(e.target.innerHTML + event['day']);
+                console.log(headerMonths.innerHTML + event['month'])
+                console.log(headerYears.innerHTML + event['year']);
+                console.log(eventData['events']);
+
+                clearEventText(headerYears.innerHTML);
+                noEvents.style.display='initial';
+                noEvents.innerHTML = `There are no events on ${headerMonths.innerHTML} ${e.target.innerHTML} ${headerYears.innerHTML}`;
+
+                //reverse flexDirection to original direction
+                eventsDescContainer.style.flexDirection = 'column';
+            }
         });
     }
 });
 
  //adds json to eventData
-function newEventJson(title , description, month, year, day){
+function newEventJson(description, month, year, day){
     let event = {
-        "title": title,
         "description": description,
         "year": year,
         "month": month,
