@@ -228,29 +228,27 @@ function showEventText(desc,month,year,day) {
     let noEvents = document.getElementsByClassName('no-Events')[0];
     let eventsDescContainer = document.querySelector('.events');
 
-    [...eventData['events']].forEach((event)=>{
-        if(event['day']===day && event['month']===month && event['year']===year){
-            let eventsDescContainer = document.querySelector('.events');
+        //span element to put Event text into
+        const span = document.createElement('span');
+        let EventText = document.createTextNode(desc);;
 
-            //span element to put Event text into
-            let eventDesc = desc;
-            const span = document.createElement('span');
-            let EventText = document.createTextNode(eventDesc);;
+        //clear previous events message
+        noEvents.style.display='none';
 
-            //clear previous events message
-            clearEventText();
-            noEvents.style.display='none';
-
-            //append to container
-            span.appendChild(EventText)
-            span.classList.add('event-desc', 'event-message');
-            eventsDescContainer.appendChild(span);
+        //append to container
+        span.appendChild(EventText)
+        span.classList.add('event-desc', 'event-message');
+        eventsDescContainer.appendChild(span);
 
 
-            //switch direction of events container to show event on top, button on bottom
-            eventsDescContainer.style.flexDirection = 'column-reverse';
-        }
-    });
+        //switch direction of events container to show event on top, button on bottom
+        eventsDescContainer.style.flexDirection = 'column-reverse';
+}
+
+//compares eventData array values to date of day clicked on 
+const checkEvents = (obj, date)=>{
+    let isInArray = eventData['events'].find(event => event[obj]===date)
+    return isInArray;
 }
 
 // //handler to show text from eventData array
@@ -265,13 +263,7 @@ document.addEventListener('click', (e)=> {
                 //show event Text
                 showEventText(event['description'], event['month'], event['year'], event['day']);
 
-            }  else {
-                console.log(e.target.innerHTML + event['day']);
-                console.log(headerMonths.innerHTML + event['month'])
-                console.log(headerYears.innerHTML + event['year']);
-                console.log(eventData['events']);
-
-                clearEventText(headerYears.innerHTML);
+            }  else if(!checkEvents('year',headerYears.innerHTML) || !checkEvents('month', headerMonths.innerHTML) || !checkEvents('day', e.target.innerHTML))  {
                 noEvents.style.display='initial';
                 noEvents.innerHTML = `There are no events on ${headerMonths.innerHTML} ${e.target.innerHTML} ${headerYears.innerHTML}`;
 
