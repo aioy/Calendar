@@ -178,21 +178,34 @@ table {
     align-items: center; /*center children horizontally*/
     overflow-y: auto;
     justify-content: start;
+    padding: 10px auto;
 }
 
 .events .event-message{
     align-items: center;
     width: 80%;
     text-align: center;
-    margin: 20px auto;
-    padding: 10px 0;
+    margin: 20px auto 0px auto;
+    padding: 10px 5px;
     background-image: linear-gradient(to right, #649173,  #dbd5a4 );
     border-radius: 3px;
     box-shadow: 3px 6px 10px #393a39;
 }
 
-.event-desc{
+.event-desc {
     align-self: flex-start;
+    word-wrap: break-word;
+    flex-shrink: 0;
+}
+
+.event-desc::after {
+    content: 'X';
+    display: inline-block;
+    padding: 5px;
+    -moz-border-radius: 7.5px;
+    -webkit-border-radius: 7.5px;
+    border-radius: 7.5px;
+    background-color: #69b6d5;
 }
 
 .hasEvent {
@@ -213,6 +226,13 @@ table {
     color: red;
 }
 
+.show-event-form {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    padding: 10px;
+    flex-shrink: 0;
+    border-bottom: 10px solid #eff7f1;
+  }
 /******** new Event Form **********/
 
 .new-event-form{

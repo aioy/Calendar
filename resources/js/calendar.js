@@ -257,6 +257,8 @@ document.addEventListener('click', (e)=> {
     let eventsDescContainer = document.querySelector('.events');
 
     if(e.target.classList.contains('day')){
+        //Clear previous event Text
+        clearEventText();
         [...eventData['events']].forEach((event)=>{
             if(event['day']===e.target.innerHTML && event['month']===headerMonths.innerHTML && event['year']===headerYears.innerHTML){
 
@@ -264,6 +266,7 @@ document.addEventListener('click', (e)=> {
                 showEventText(event['description'], event['month'], event['year'], event['day']);
 
             }  else if(!checkEvents('year',headerYears.innerHTML) || !checkEvents('month', headerMonths.innerHTML) || !checkEvents('day', e.target.innerHTML))  {
+                clearEventText();
                 noEvents.style.display='initial';
                 noEvents.innerHTML = `There are no events on ${headerMonths.innerHTML} ${e.target.innerHTML} ${headerYears.innerHTML}`;
 
