@@ -149,10 +149,13 @@ document.addEventListener('click',function(e){
     submit: ()=>{
         if(newEvent.desc.value.length===0) {
             newEvent.desc.classList.add('error');
+            newEvent.desc.style.border='4px solid red';
         } else {
             newEventJson(newEvent.desc.value, newEvent.month.innerHTML, newEvent.year.innerHTML, newEvent.active[0].innerHTML);
             hideShowEventsDiv();
             showEventText(newEvent.desc.value, newEvent.month.innerHTML, newEvent.year.innerHTML, newEvent.active[0].innerHTML);
+            newEvent.desc.classList.remove('error');
+            newEvent.desc.style.border='none';
             newEvent.clear();
         }
     },
@@ -239,10 +242,6 @@ function showEventText(desc,month,year,day) {
         span.appendChild(EventText)
         span.classList.add('event-desc', 'event-message');
         eventsDescContainer.appendChild(span);
-
-
-        //switch direction of events container to show event on top, button on bottom
-        eventsDescContainer.style.flexDirection = 'column-reverse';
 }
 
 //compares eventData array values to date of day clicked on 
@@ -269,9 +268,6 @@ document.addEventListener('click', (e)=> {
                 clearEventText();
                 noEvents.style.display='initial';
                 noEvents.innerHTML = `There are no events on ${headerMonths.innerHTML} ${e.target.innerHTML} ${headerYears.innerHTML}`;
-
-                //reverse flexDirection to original direction
-                eventsDescContainer.style.flexDirection = 'column';
             }
         });
     }
