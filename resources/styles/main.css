@@ -103,6 +103,7 @@ table {
     padding: 1em;
     cursor: default;
     border: 2px solid black;
+    font-weight: bold;
 }
 
 .days-body thead .days-row th:hover{
@@ -201,13 +202,13 @@ table {
     position: relative;
 }
 
-.event-desc::after {
-    content: 'X';
-    display: inline-block;
+.remove {
+    display: block;
     padding: 2px;
     -moz-border-radius: 7.5px;
     -webkit-border-radius: 7.5px;
     border-radius: 7.5px;
+    line-height:12px;
     background-color: #69b6d5;
     position:absolute;
     right:0;

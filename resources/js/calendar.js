@@ -235,11 +235,18 @@ function showEventText(desc,month,year,day) {
         const span = document.createElement('span');
         let EventText = document.createTextNode(desc);;
 
+        //delete button for span
+        const remove = document.createElement('div');
+        let x = document.createTextNode('x');
+        remove.appendChild(x);
+        remove.classList.add('remove');
+
         //clear previous events message
         noEvents.style.display='none';
 
         //append to container
         span.appendChild(EventText)
+        span.appendChild(remove);
         span.classList.add('event-desc', 'event-message');
         eventsDescContainer.appendChild(span);
 }
@@ -268,6 +275,19 @@ document.addEventListener('click', (e)=> {
                 clearEventText();
                 noEvents.style.display='initial';
                 noEvents.innerHTML = `There are no events on ${headerMonths.innerHTML} ${e.target.innerHTML} ${headerYears.innerHTML}`;
+            }
+        });
+    }
+});
+
+//click on x to remove event
+document.addEventListener('click', (x)=>{
+    if(x.target.classList.contains('remove')){
+        let eventText = x.target.parentNode.textContent.slice(0,-1);
+        
+        [...eventData['events']].forEach((event)=>{
+            if(event['day']===eventText && event['month']===headerMonths.innerHTML && event['year']===headerYears.innerHTML){
+                x.target.parentNode.outerHTML='';
             }
         });
     }
