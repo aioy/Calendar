@@ -153,7 +153,7 @@ document.addEventListener('click',function(e){
         } else {
             newEventJson(newEvent.desc.value, newEvent.month.innerHTML, newEvent.year.innerHTML, newEvent.active[0].innerHTML);
             hideShowEventsDiv();
-            showEventText(newEvent.desc.value, newEvent.month.innerHTML, newEvent.year.innerHTML, newEvent.active[0].innerHTML);
+            showEventText(newEvent.desc.value);
             newEvent.desc.classList.remove('error');
             newEvent.desc.style.border='none';
             newEvent.clear();
@@ -226,7 +226,7 @@ function clearEventText() {
 }
 
 //shows eventText
-function showEventText(desc,month,year,day) {
+function showEventText(desc) {
 
     let noEvents = document.getElementsByClassName('no-Events')[0];
     let eventsDescContainer = document.querySelector('.events');
@@ -242,6 +242,7 @@ function showEventText(desc,month,year,day) {
         remove.classList.add('remove');
 
         //clear previous events message
+        noEvents.classList.remove('show');
         noEvents.style.display='none';
 
         //append to container
@@ -260,36 +261,62 @@ const checkEvents = (obj, date)=>{
 // //handler to show text from eventData array
 document.addEventListener('click', (e)=> {
     let noEvents = document.getElementsByClassName('no-Events')[0];
-    let eventsDescContainer = document.querySelector('.events');
 
     if(e.target.classList.contains('day')){
         //Clear previous event Text
         clearEventText();
-        [...eventData['events']].forEach((event)=>{
-            if(event['day']===e.target.innerHTML && event['month']===headerMonths.innerHTML && event['year']===headerYears.innerHTML){
 
-                //show event Text
-                showEventText(event['description'], event['month'], event['year'], event['day']);
-
-            }  else if(!checkEvents('year',headerYears.innerHTML) || !checkEvents('month', headerMonths.innerHTML) || !checkEvents('day', e.target.innerHTML))  {
-                clearEventText();
-                noEvents.style.display='initial';
-                noEvents.innerHTML = `There are no events on ${headerMonths.innerHTML} ${e.target.innerHTML} ${headerYears.innerHTML}`;
-            }
-        });
+        if(eventData.events.length===0){
+            noEvents.style.display='initial';
+            noEvents.innerHTML = `There are no events on ${headerMonths.innerHTML} ${e.target.innerHTML} ${headerYears.innerHTML}`;
+        } else {
+            [...eventData['events']].forEach((event)=>{
+                if(event['day']===e.target.innerHTML && event['month']===headerMonths.innerHTML && event['year']===headerYears.innerHTML){
+    
+                    //show event Text
+                    showEventText(event['description']);
+    
+                }  else if(!checkEvents('year',headerYears.innerHTML) || !checkEvents('month', headerMonths.innerHTML) || !checkEvents('day', e.target.innerHTML))  {
+                    clearEventText();
+                    noEvents.style.display='initial';
+                    noEvents.innerHTML = `There are no events on ${headerMonths.innerHTML} ${e.target.innerHTML} ${headerYears.innerHTML}`;
+                }
+            });
+        }
     }
 });
 
 //click on x to remove event
 document.addEventListener('click', (x)=>{
+    //day clicked on
+    let day = document.getElementsByClassName('active')[0];
+    let noEvents = document.getElementsByClassName('no-Events')[0];
+
     if(x.target.classList.contains('remove')){
         let eventText = x.target.parentNode.textContent.slice(0,-1);
-        
-        [...eventData['events']].forEach((event)=>{
-            if(event['day']===eventText && event['month']===headerMonths.innerHTML && event['year']===headerYears.innerHTML){
-                x.target.parentNode.outerHTML='';
+
+        for(var i = eventData.events.length-1; i >= 0; --i) {
+            if(eventData.events[i]['day']===day.innerHTML && eventData.events[i]['month']===headerMonths.innerHTML && eventData.events[i]['year']===headerYears.innerHTML && eventData.events[i]['description']===eventText){
+                eventData.events.splice(i,1);
+                //remove event clicked on from view
+                x.target.parentNode.classList.add('swingHide');
+                setInterval(()=>{
+                    x.target.parentNode.outerHTML='';
+                },500);
+                //if no events on day selected show message
+                if(!checkEvents('year',headerYears.innerHTML) || !checkEvents('month', headerMonths.innerHTML) || !checkEvents('day', day.innerHTML)){
+                    setTimeout(()=>{
+                        noEvents.style.display='initial';
+                    },600)
+                    noEvents.innerHTML = `There are no events on ${headerMonths.innerHTML} ${day.innerHTML} ${headerYears.innerHTML}`;
+                    day.classList.remove('active-event');
+                }
+                //if events on day selected show them
+                if(checkEvents('year',headerYears.innerHTML) && checkEvents('month', headerMonths.innerHTML) & checkEvents('day', day.innerHTML)){
+                    showEventText(eventData.events[i].description);
+                }
             }
-        });
+        }
     }
 });
 

@@ -191,6 +191,7 @@ table {
     background-image: linear-gradient(to right, #649173,  #dbd5a4 );
     border-radius: 3px;
     box-shadow: 3px 6px 10px #393a39;
+    transition: all 0.5s cubic-bezier(.36,-0.64,.34,1.76);
 }
 
 .event-desc {
@@ -325,3 +326,16 @@ table {
     height: 100%; opacity: 1; width: 100%;
     transition: height 200ms 0ms, opacity 600ms 200ms, width 0ms 0ms;
 }
+
+.swingHide {
+    opacity: 0;
+    transform: rotateY(-90deg);
+    transition: all 0.5s cubic-bezier(.36,-0.64,.34,1.76);
+}
+
+.show {
+    opacity: 1;
+    transform: none;
+    transition: all 0.5s cubic-bezier(.36,-0.64,.34,1.76);
+}
+  
